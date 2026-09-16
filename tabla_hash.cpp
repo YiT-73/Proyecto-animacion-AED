@@ -149,6 +149,7 @@ private:
         Node* newNode = new Node(key, value, table[index]);
         table[index] = newNode;
         ++numElements;
+        eventos << "MOVE " << key << " " << index << endl;
     }
 
     // Rehash: duplica capacidad y reubica todos los elementos
@@ -176,6 +177,7 @@ private:
         }
 
         delete[] oldTable;
+        eventos << "REHASH_END" << endl;
     }
 
     // Decide si, después de insertar uno más, se supera el fill factor
@@ -212,6 +214,7 @@ public:
         }
 
         initTable(initialCapacity);
+        eventos << "INIT " << initialCapacity << endl;
     }
 
     // -----------------------------
@@ -343,6 +346,7 @@ public:
             current = current->next;
         }
 
+        eventos << "REMOVE " << key << " NOT FOUND" << endl;
         return false;
     }
 
@@ -424,6 +428,10 @@ public:
 int main() {
 
     eventos.open("eventos.txt");
+    if (!eventos) {
+        cerr << "No se pudo abrir eventos.txt" << endl;
+        return 1;
+    }
     cout << "=== HASH TABLE CON DIVISION HASH ===\n";
     HashTable<int, string, DivisionHash<int>> ht1(5, 3, 0.5);
 

@@ -1,0 +1,9 @@
+# Entornos y archivos generados localmente.
+/venv/
+/.venv/
+/build/
+/media/
+__pycache__/
+*.py[cod]
+/hash
+/hash.exe

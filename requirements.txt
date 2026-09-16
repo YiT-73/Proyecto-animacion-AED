@@ -1,0 +1,2 @@
+# Python >= 3.11. Las dependencias transitivas las resuelve pip.
+manim==0.21.0

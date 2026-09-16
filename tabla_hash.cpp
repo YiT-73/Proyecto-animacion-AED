@@ -5,9 +5,10 @@
 #include <string>
 #include <utility>
 #include <cmath>
+#include <fstream>
 
 using namespace std;
-
+ofstream eventos;
 // ============================================================
 // HASH BASE
 // Convierte cualquier Key en un size_t usando std::hash
@@ -155,6 +156,12 @@ private:
         size_t oldCapacity = capacity;
         Node** oldTable = table;
 
+        eventos << "REHASH "
+            << capacity
+            << " "
+            << capacity * 2
+            << endl;
+
         initTable(capacity * 2);
         numElements = 0;
 
@@ -228,7 +235,6 @@ public:
     // -----------------------------
     void insert(const Key& key, const Value& value) {
         size_t index = hashFunction(key, capacity);
-
         // Si ya existe, actualizamos
         Node* current = table[index];
         while (current != nullptr) {
@@ -244,6 +250,12 @@ public:
             rehash();
             index = hashFunction(key, capacity);
         }
+
+         eventos << "INSERT "
+            << key
+            << " "
+            << index
+            << endl;
 
         // Inserción en cabeza
         Node* newNode = new Node(key, value, table[index]);
@@ -261,10 +273,21 @@ public:
 
         while (current != nullptr) {
             if (current->key == key) {
+                 eventos << "SEARCH "
+                        << key
+                        << " "
+                        << index
+                        << endl;
                 return &(current->value);
             }
             current = current->next;
+        
         }
+        eventos << "SEARCH "
+            << key
+            << " "
+            << "NOT FOUND"
+            << endl;
         return nullptr;
     }
 
@@ -274,10 +297,20 @@ public:
 
         while (current != nullptr) {
             if (current->key == key) {
+                eventos << "SEARCH "
+                        << key
+                        << " "
+                        << index
+                        << endl;
                 return &(current->value);
             }
             current = current->next;
         }
+         eventos << "SEARCH "
+            << key
+            << " "
+            << "NOT FOUND"
+            << endl;
         return nullptr;
     }
 
@@ -292,6 +325,11 @@ public:
 
         while (current != nullptr) {
             if (current->key == key) {
+                eventos << "REMOVE "
+                        << key
+                        << " "
+                        << index
+                        << endl;
                 if (prev == nullptr) {
                     table[index] = current->next;
                 } else {
@@ -384,6 +422,8 @@ public:
 // DEMO
 // ============================================================
 int main() {
+
+    eventos.open("eventos.txt");
     cout << "=== HASH TABLE CON DIVISION HASH ===\n";
     HashTable<int, string, DivisionHash<int>> ht1(5, 3, 0.5);
 
@@ -399,37 +439,18 @@ int main() {
     ht1.print();
 
     if (auto p = ht1.search(19)) {
+        size_t posicion = 19 % ht1.getCapacity();
         cout << "Encontrado 19 -> " << *p << "\n";
     } else {
         cout << "19 no encontrado\n";
     }
 
     ht1.remove(19);
+    size_t posicion = 19 % ht1.getCapacity();
     cout << "Luego de eliminar 19:\n";
     ht1.print();
 
-    cout << "\n=== HASH TABLE CON MULTIPLICATION HASH ===\n";
-    MultiplicationHash<int> mh(0.6180339887);
-    HashTable<int, string, MultiplicationHash<int>> ht2(5, 3, 0.5, mh);
 
-    for (int key : keys) {
-        ht2.insert(key, "v" + to_string(key));
-    }
-    ht2.print();
-
-    cout << "\n=== HASH TABLE CON UNIVERSAL HASH ===\n";
-    UniversalHash<int> uh(1000003);
-    HashTable<int, string, UniversalHash<int>> ht3(5, 3, 0.5, uh);
-
-    for (int key : keys) {
-        ht3.insert(key, "u" + to_string(key));
-    }
-    ht3.print();
-
-    cout << "Parámetros universal hash: "
-         << "a=" << uh.getA()
-         << ", b=" << uh.getB()
-         << ", p=" << uh.getP() << "\n";
-
+    eventos.close();
     return 0;
 }

@@ -9,40 +9,21 @@ Las contribuciones individuales están pendientes de completar para el informe.
 
 Repositorio: [Proyecto-animacion-AED](https://github.com/YiT-73/Proyecto-animacion-AED).
 
-## Inicio rápido: toda la pipeline con un comando
+## Antes de la primera ejecución
 
-Primero instala las herramientas del sistema indicadas en la guía de
-[Linux](#instalación-en-linux) o [Windows](#instalación-en-windows).
-Desde la carpeta del proyecto:
+Si acabas de descargar el proyecto, sigue este orden:
 
-**Linux:**
+1. Instala **Python 3.11 o posterior** y un **compilador C++17** siguiendo la guía
+   de [Linux](#instalación-en-linux) o [Windows](#instalación-en-windows).
+2. Descarga el repositorio y entra a la carpeta que contiene `pipeline.py`.
+3. Comprueba que Python y el compilador respondan a los comandos `--version`
+   indicados en la guía de tu sistema.
+4. Ejecuta la [pipeline](#inicio-rápido-toda-la-pipeline-con-un-comando).
 
-```bash
-python3 pipeline.py
-```
-
-**Windows, PowerShell:**
-
-```powershell
-py -3 pipeline.py
-```
-
-El comando crea `venv` si hace falta, instala `requirements.txt` cuando las
-dependencias no están disponibles, compila `tabla_hash.cpp`, ejecuta la
-demostración para regenerar `eventos.txt` y renderiza el video en **1080p a 60 FPS**.
-No es necesario activar el entorno virtual. Las siguientes ejecuciones reutilizan
-las dependencias instaladas y la caché de renderización.
-
-El resultado queda en:
-
-```text
-build/media/videos/animacion/1080p60/HashAnimation.mp4
-```
-
-La pipeline se detiene si falla alguna etapa. Cada ejecución reemplaza el registro
-de eventos y la salida de video correspondiente. También puede invocarse desde
-otro directorio indicando la ruta completa a `pipeline.py`: trabaja siempre en
-la carpeta del proyecto.
+La instalación del sistema se realiza una sola vez. **La pipeline prepara el
+entorno de Python e instala Manim, pero no instala Python ni el compilador C++.**
+En Windows puedes elegir WinLibs o MSYS2; basta con una de esas alternativas.
+FFmpeg solo es necesario si vas a utilizar la opción `--mpeg`.
 
 ## Estructura de datos y demostración
 
@@ -141,7 +122,7 @@ En los comandos siguientes usa `python3.13` en lugar de `python3`. Si tu edició
 no ofrece esos paquetes, consulta sus repositorios para una versión de Python
 3.11 o posterior junto con los paquetes `-devel` y `-pip` correspondientes.
 
-### Descargar y ejecutar
+### Descargar y comprobar las herramientas
 
 Si ya tienes el repositorio, entra a su carpeta y omite la clonación.
 
@@ -150,62 +131,149 @@ git clone https://github.com/YiT-73/Proyecto-animacion-AED.git
 cd Proyecto-animacion-AED
 python3 --version
 g++ --version
-python3 pipeline.py
 ```
+
+Si ambos comandos muestran una versión y Python es 3.11 o posterior, continúa
+con la [ejecución de la pipeline](#inicio-rápido-toda-la-pipeline-con-un-comando).
 
 ## Instalación en Windows
 
-Guía para **Windows 10/11 de 64 bits**, usando PowerShell y Python nativo de Windows.
+Guía para **Windows 10/11 de 64 bits (x86_64)**, usando PowerShell y Python nativo
+de Windows. Instala Python y elige **una** de las dos formas de obtener `g++`.
 
-1. Instala Python de 64 bits, versión 3.11 o posterior, desde
-   [Python para Windows](https://www.python.org/downloads/windows/), con `pip` y el
-   lanzador `py`. Comprueba `py -3 --version` en una terminal nueva.
-2. Instala [Git para Windows](https://git-scm.com/downloads/win) o descarga y
-   descomprime el ZIP del repositorio.
-3. Instala [MSYS2](https://www.msys2.org/). Abre **MSYS2 UCRT64** desde el menú Inicio
-   y ejecuta:
+### 1. Instalar Python
 
-   ```bash
-   pacman -Syu
-   ```
+Descarga Python de 64 bits, versión 3.11 o posterior, desde
+[Python para Windows](https://www.python.org/downloads/windows/), con `pip` y el
+lanzador `py`. Abre una terminal de PowerShell nueva y comprueba:
 
-   Si solicita cerrar la terminal, ciérrala, abre de nuevo **MSYS2 UCRT64** y repite
-   la actualización. Después instala el compilador:
+```powershell
+py -3 --version
+```
 
-   ```bash
-   pacman -S --needed mingw-w64-ucrt-x86_64-gcc
-   ```
+Debe mostrar Python 3.11 o posterior.
 
-   Esta es la instalación de GCC descrita por
-   [MinGW-w64](https://www.mingw-w64.org/getting-started/msys2/).
-4. Abre **PowerShell**. Para una instalación estándar de MSYS2, agrega el
-   compilador al `PATH` de esta sesión:
+### 2A. Obtener el compilador con WinLibs (sin MSYS2)
 
-   ```powershell
-   $env:Path = "C:\msys64\ucrt64\bin;" + $env:Path
-   py -3 --version
-   g++ --version
-   ```
+[WinLibs](https://winlibs.com/) distribuye GCC y MinGW-w64 en un archivo comprimido.
+Esta alternativa permite ejecutar la pipeline sin configurar el `PATH`.
 
-   Si instalaste MSYS2 en otra ubicación, ajusta esa ruta. Para conservarla entre
-   terminales puedes añadirla al `Path` de tu usuario en Variables de entorno de
-   Windows. Otra opción es pasar `--compilador` al ejecutar la pipeline.
-5. Descarga y ejecuta el proyecto desde PowerShell:
+1. En la sección de descargas de WinLibs, elige una versión estable **Win64
+   (x86_64), UCRT, ZIP** de GCC con MinGW-w64.
+2. Descomprime **todo el archivo** en una carpeta, por ejemplo `C:\winlibs`.
+   Conserva sus subcarpetas y bibliotecas, no copies solamente `g++.exe`.
+3. Localiza `g++.exe` dentro de `mingw64\bin`. Si la ruta resultante es
+   `C:\winlibs\mingw64\bin\g++.exe`, comprueba desde PowerShell:
 
    ```powershell
-   git clone https://github.com/YiT-73/Proyecto-animacion-AED.git
-   cd Proyecto-animacion-AED
-   py -3 pipeline.py
+   & "C:\winlibs\mingw64\bin\g++.exe" --version
    ```
+
+   El símbolo `&` permite ejecutar una ruta entre comillas en PowerShell.
+   Si descomprimiste el archivo en otra ubicación, ajusta la ruta.
+
+Al ejecutar la pipeline usarás `--compilador` con esa misma ruta. Si elegiste
+WinLibs, pasa al paso 3; no necesitas instalar MSYS2.
+
+### 2B. Obtener el compilador con MSYS2 (alternativa)
+
+Instala [MSYS2](https://www.msys2.org/). Abre **MSYS2 UCRT64** desde el menú Inicio
+y ejecuta:
+
+```bash
+pacman -Syu
+```
+
+Si solicita cerrar la terminal, ciérrala, abre de nuevo **MSYS2 UCRT64** y repite
+la actualización. Después instala el compilador:
+
+```bash
+pacman -S --needed mingw-w64-ucrt-x86_64-gcc
+```
+
+Esta es la instalación de GCC descrita por
+[MinGW-w64](https://www.mingw-w64.org/getting-started/msys2/).
+
+Abre **PowerShell**. Para una instalación estándar de MSYS2, agrega el compilador
+al `PATH` de esta sesión y comprueba que funcione:
+
+```powershell
+$env:Path = "C:\msys64\ucrt64\bin;" + $env:Path
+g++ --version
+```
+
+Si instalaste MSYS2 en otra ubicación, ajusta esa ruta. Para conservarla entre
+terminales, busca **Editar las variables de entorno de esta cuenta** en Inicio,
+edita `Path` y añade `C:\msys64\ucrt64\bin`. Después abre una terminal nueva;
+si usas la terminal integrada de VS Code, reinicia VS Code.
+
+También puedes pasar la ruta de MSYS2 con `--compilador`, igual que con WinLibs.
+
+### 3. Descargar el proyecto
+
+Si ya tienes el repositorio, entra a su carpeta y omite la descarga.
+Puedes usar **Code → Download ZIP** en
+[GitHub](https://github.com/YiT-73/Proyecto-animacion-AED) y descomprimirlo, o instalar
+[Git para Windows](https://git-scm.com/downloads/win) y clonar desde PowerShell:
+
+```powershell
+git clone https://github.com/YiT-73/Proyecto-animacion-AED.git
+cd Proyecto-animacion-AED
+```
+
+Si descargaste un ZIP, abre PowerShell en la carpeta descomprimida que contiene
+`pipeline.py`. Ya puedes seguir con la ejecución indicada abajo.
 
 Manim se instala dentro de `venv` mediante el Python de Windows. No hay que
 activar `Activate.ps1` ni cambiar la política de ejecución de PowerShell. No
 reutilices una carpeta `venv` creada en Linux: renómbrala y deja que la pipeline
 cree un entorno para Windows.
 
+## Inicio rápido: toda la pipeline con un comando
+
+Después de completar la instalación y comprobar las versiones, ejecuta desde
+la carpeta que contiene `pipeline.py`:
+
+**Linux:**
+
+```bash
+python3 pipeline.py
+```
+
+**Windows con WinLibs, PowerShell** (ajusta la ruta a tu instalación):
+
+```powershell
+py -3 pipeline.py --compilador "C:\winlibs\mingw64\bin\g++.exe"
+```
+
+**Windows con `g++` en el `PATH`, PowerShell:**
+
+```powershell
+py -3 pipeline.py
+```
+
+El comando crea `venv` si hace falta, instala `requirements.txt` cuando las
+dependencias no están disponibles, compila `tabla_hash.cpp`, ejecuta la
+demostración para regenerar `eventos.txt` y renderiza el video en **1080p a 60 FPS**.
+No es necesario activar el entorno virtual. Las siguientes ejecuciones reutilizan
+las dependencias instaladas y la caché de renderización.
+
+El resultado queda en:
+
+```text
+build/media/videos/animacion/1080p60/HashAnimation.mp4
+```
+
+La pipeline se detiene si falla alguna etapa. Cada ejecución reemplaza el registro
+de eventos y la salida de video correspondiente. También puede invocarse desde
+otro directorio indicando la ruta completa a `pipeline.py`: trabaja siempre en
+la carpeta del proyecto.
+
 ## Opciones de la pipeline
 
-Los ejemplos usan Linux; en Windows sustituye `python3` por `py -3`.
+Los ejemplos usan Linux; en Windows sustituye `python3` por `py -3`. Si utilizas
+WinLibs u otro compilador fuera del `PATH`, añade también `--compilador` con su
+ruta, como en el ejemplo anterior.
 
 ```bash
 # Vista previa rápida: 480p y 15 FPS.

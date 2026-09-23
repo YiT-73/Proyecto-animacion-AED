@@ -402,26 +402,3 @@ claves enteras y tablas demostradas de forma secuencial.
 La pipeline se verifica localmente en Linux. La guía de Windows sigue las
 instalaciones oficiales indicadas, pero no se ha ejecutado en un equipo Windows
 durante esta preparación.
-
-## Requisitos de la entrega académica
-
-Según el enunciado `aed_project_1.pdf`, el README debe presentar el proyecto,
-el software requerido, las instrucciones de compilación y ejecución, y una
-breve descripción de la estructura elegida; esos apartados están incluidos arriba.
-
-Para la entrega completa también se solicita:
-
-- Animación con Manim y una ilustración visual interactiva del funcionamiento.
-- Demo de 1 a 2 minutos; el límite general indicado es de 5 minutos.
-- Título y autores al inicio del video o en los créditos.
-- Video de alta resolución en formato MPEG.
-- Grupo de hasta tres integrantes.
-- Informe breve en PDF con descripción del trabajo, contribuciones individuales
-  y enlaces funcionales al repositorio y al video final.
-
-**Estado pendiente de la entrega:** la escena incluye portada con título, curso e
-integrantes, explicación, gráfica y demo, con una duración mínima de un minuto.
-No ofrece interacción durante la reproducción. Falta completar las contribuciones,
-preparar el informe y añadir el enlace público al video final. La pipeline permite
-renderizar en alta resolución y exportar `.mpeg`, pero no completa esos pendientes
-académicos automáticamente.

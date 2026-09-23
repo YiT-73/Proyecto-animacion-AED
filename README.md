@@ -12,7 +12,7 @@ Repositorio: [Proyecto-animacion-AED](https://github.com/YiT-73/Proyecto-animaci
 
 ## Antes de la primera ejecución
 
-Si acabas de descargar el proyecto, sigue este orden:
+Si acaba de descargar el proyecto, sigue este orden:
 
 1. Instala **Python 3.11 o posterior** y un **compilador C++17** siguiendo la guía
    de [Linux](#instalación-en-linux) o [Windows](#instalación-en-windows).

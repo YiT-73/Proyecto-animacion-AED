@@ -81,7 +81,7 @@ LaTeX. Véanse las [instrucciones de Manim](https://docs.manim.community/en/stab
 
 ## Instalación en Linux
 
-Instala una vez los paquetes correspondientes a tu distribución. Los comandos
+Instale una vez los paquetes correspondientes a tu distribución. Los comandos
 `sudo` siguientes instalan herramientas del sistema; la pipeline se ejecuta como
 usuario normal. Las dependencias de Cairo se basan en la
 [guía de Pycairo](https://pycairo.readthedocs.io/en/latest/getting_started.html).
@@ -112,7 +112,7 @@ sudo pacman -Syu --needed base-devel python python-pip pkgconf cairo pango git
 
 Este comando también actualiza el sistema conforme al modelo de actualización
 de estas distribuciones. Usa el entorno virtual del proyecto para los paquetes
-Python; véase la [documentación de Python en Arch](https://wiki.archlinux.org/title/Python).
+Python; ver la [documentación de Python en Arch](https://wiki.archlinux.org/title/Python).
 
 ### openSUSE Tumbleweed y Leap 16
 
@@ -130,7 +130,7 @@ no ofrece esos paquetes, consulta sus repositorios para una versión de Python
 
 ### Descargar y comprobar las herramientas
 
-Si ya tienes el repositorio, entra a su carpeta y omite la clonación.
+Si ya tiene el repositorio, entre a su carpeta y omita la clonación.
 
 ```bash
 git clone https://github.com/YiT-73/Proyecto-animacion-AED.git
@@ -149,9 +149,9 @@ de Windows. Instala Python y elige **una** de las dos formas de obtener `g++`.
 
 ### 1. Instalar Python
 
-Descarga Python de 64 bits, versión 3.11 o posterior, desde
+Descarge Python de 64 bits, versión 3.11 o posterior, desde
 [Python para Windows](https://www.python.org/downloads/windows/), con `pip` y el
-lanzador `py`. Abre una terminal de PowerShell nueva y comprueba:
+lanzador `py`. Abra una terminal de PowerShell nueva y compruebe:
 
 ```powershell
 py -3 --version
@@ -166,32 +166,32 @@ Esta alternativa permite ejecutar la pipeline sin configurar el `PATH`.
 
 1. En la sección de descargas de WinLibs, elige una versión estable **Win64
    (x86_64), UCRT, ZIP** de GCC con MinGW-w64.
-2. Descomprime **todo el archivo** en una carpeta, por ejemplo `C:\winlibs`.
-   Conserva sus subcarpetas y bibliotecas, no copies solamente `g++.exe`.
-3. Localiza `g++.exe` dentro de `mingw64\bin`. Si la ruta resultante es
-   `C:\winlibs\mingw64\bin\g++.exe`, comprueba desde PowerShell:
+2. Descomprima **todo el archivo** en una carpeta, por ejemplo `C:\winlibs`.
+   Conserve sus subcarpetas y bibliotecas, no copie solamente `g++.exe`.
+3. Localice `g++.exe` dentro de `mingw64\bin`. Si la ruta resultante es
+   `C:\winlibs\mingw64\bin\g++.exe`, compruebe desde PowerShell:
 
    ```powershell
    & "C:\winlibs\mingw64\bin\g++.exe" --version
    ```
 
    El símbolo `&` permite ejecutar una ruta entre comillas en PowerShell.
-   Si descomprimiste el archivo en otra ubicación, ajusta la ruta.
+   Si descomprimió el archivo en otra ubicación, ajusta la ruta.
 
-Al ejecutar la pipeline usarás `--compilador` con esa misma ruta. Si elegiste
-WinLibs, pasa al paso 3; no necesitas instalar MSYS2.
+Al ejecutar la pipeline usarás `--compilador` con esa misma ruta. Si elegió
+WinLibs, pase al paso 3; no necesita instalar MSYS2.
 
 ### 2B. Obtener el compilador con MSYS2 (alternativa)
 
-Instala [MSYS2](https://www.msys2.org/). Abre **MSYS2 UCRT64** desde el menú Inicio
-y ejecuta:
+Instale [MSYS2](https://www.msys2.org/). Abra **MSYS2 UCRT64** desde el menú Inicio
+y ejecute:
 
 ```bash
 pacman -Syu
 ```
 
-Si solicita cerrar la terminal, ciérrala, abre de nuevo **MSYS2 UCRT64** y repite
-la actualización. Después instala el compilador:
+Si solicita cerrar la terminal, ciérrala, abra de nuevo **MSYS2 UCRT64** y repita
+la actualización. Después instale el compilador:
 
 ```bash
 pacman -S --needed mingw-w64-ucrt-x86_64-gcc
@@ -200,44 +200,44 @@ pacman -S --needed mingw-w64-ucrt-x86_64-gcc
 Esta es la instalación de GCC descrita por
 [MinGW-w64](https://www.mingw-w64.org/getting-started/msys2/).
 
-Abre **PowerShell**. Para una instalación estándar de MSYS2, agrega el compilador
-al `PATH` de esta sesión y comprueba que funcione:
+Abra **PowerShell**. Para una instalación estándar de MSYS2, agregue el compilador
+al `PATH` de esta sesión y compruebe que funcione:
 
 ```powershell
 $env:Path = "C:\msys64\ucrt64\bin;" + $env:Path
 g++ --version
 ```
 
-Si instalaste MSYS2 en otra ubicación, ajusta esa ruta. Para conservarla entre
-terminales, busca **Editar las variables de entorno de esta cuenta** en Inicio,
-edita `Path` y añade `C:\msys64\ucrt64\bin`. Después abre una terminal nueva;
-si usas la terminal integrada de VS Code, reinicia VS Code.
+Si instaló MSYS2 en otra ubicación, ajuste esa ruta. Para conservarla entre
+terminales, busque **Editar las variables de entorno de esta cuenta** en Inicio,
+edite `Path` y añada `C:\msys64\ucrt64\bin`. Después abra una terminal nueva;
+si usa la terminal integrada de VS Code, reinicie VS Code.
 
-También puedes pasar la ruta de MSYS2 con `--compilador`, igual que con WinLibs.
+También puede pasar la ruta de MSYS2 con `--compilador`, igual que con WinLibs.
 
 ### 3. Descargar el proyecto
 
-Si ya tienes el repositorio, entra a su carpeta y omite la descarga.
-Puedes usar **Code → Download ZIP** en
+Si ya tiene el repositorio, entre a su carpeta y omita la descarga.
+Puede usar **Code → Download ZIP** en
 [GitHub](https://github.com/YiT-73/Proyecto-animacion-AED) y descomprimirlo, o instalar
-[Git para Windows](https://git-scm.com/downloads/win) y clonar desde PowerShell:
+[Git para Windows](https://git-scm.com/downloads/win) y clone desde PowerShell:
 
 ```powershell
 git clone https://github.com/YiT-73/Proyecto-animacion-AED.git
 cd Proyecto-animacion-AED
 ```
 
-Si descargaste un ZIP, abre PowerShell en la carpeta descomprimida que contiene
-`pipeline.py`. Ya puedes seguir con la ejecución indicada abajo.
+Si descargó un ZIP, abra PowerShell en la carpeta descomprimida que contiene
+`pipeline.py`. Ya puede seguir con la ejecución indicada abajo.
 
 Manim se instala dentro de `venv` mediante el Python de Windows. No hay que
 activar `Activate.ps1` ni cambiar la política de ejecución de PowerShell. No
-reutilices una carpeta `venv` creada en Linux: renómbrala y deja que la pipeline
+reutilice una carpeta `venv` creada en Linux: renómbrela y deje que la pipeline
 cree un entorno para Windows.
 
 ## Inicio rápido: toda la pipeline con un comando
 
-Después de completar la instalación y comprobar las versiones, ejecuta desde
+Después de completar la instalación y comprobar las versiones, ejecute desde
 la carpeta que contiene `pipeline.py`:
 
 **Linux:**
@@ -246,7 +246,7 @@ la carpeta que contiene `pipeline.py`:
 python3 pipeline.py
 ```
 
-**Windows con WinLibs, PowerShell** (ajusta la ruta a tu instalación):
+**Windows con WinLibs, PowerShell** (ajuste la ruta a su instalación):
 
 ```powershell
 py -3 pipeline.py --compilador "C:\winlibs\mingw64\bin\g++.exe"
@@ -259,8 +259,8 @@ py -3 pipeline.py
 ```
 
 El comando crea `venv` si hace falta, instala `requirements.txt` cuando las
-dependencias no están disponibles, compila `tabla_hash.cpp`, ejecuta la
-demostración para regenerar `eventos.txt` y renderiza el video en **1080p a 60 FPS**.
+dependencias no están disponibles, compila `tabla_hash.cpp`, ejecute la
+demostración para regenerar `eventos.txt` y renderice el video en **1080p a 60 FPS**.
 No es necesario activar el entorno virtual. Las siguientes ejecuciones reutilizan
 las dependencias instaladas y la caché de renderización.
 
@@ -277,7 +277,7 @@ la carpeta del proyecto.
 
 ## Opciones de la pipeline
 
-Los ejemplos usan Linux; en Windows sustituye `python3` por `py -3`. Si utilizas
+Los ejemplos usan Linux; en Windows sustituye `python3` por `py -3`. Si utiliza
 WinLibs u otro compilador fuera del `PATH`, añade también `--compilador` con su
 ruta, como en el ejemplo anterior.
 
@@ -310,7 +310,7 @@ Las opciones se pueden combinar.
 ### Exportar un archivo `.mpeg`
 
 La salida habitual es MP4. Para disponer también de un archivo con extensión
-`.mpeg` y códec MPEG-2, instala FFmpeg y comprueba `ffmpeg -version`.
+`.mpeg` y códec MPEG-2, instala FFmpeg y compruebe `ffmpeg -version`.
 
 | Sistema | Instalación de FFmpeg |
 | --- | --- |
@@ -319,7 +319,7 @@ La salida habitual es MP4. Para disponer también de un archivo con extensión
 | Arch y derivadas | `sudo pacman -S --needed ffmpeg` |
 | Windows, PowerShell | `winget install --id Gyan.FFmpeg -e` y abrir otra terminal |
 
-Para otras distribuciones, utiliza su paquete de FFmpeg. También puedes consultar
+Para otras distribuciones, utilice su paquete de FFmpeg. También puedes consultar
 las [descargas de FFmpeg](https://ffmpeg.org/download.html); el identificador de
 Windows figura en el [catálogo de WinGet](https://github.com/microsoft/winget-pkgs/tree/master/manifests/g/Gyan/FFmpeg).
 
@@ -361,7 +361,7 @@ La ejecución manual de Manim guarda el video en
 sus resultados dentro de `build/`. En ambos casos `-ql`, `-qm` y `-qh` seleccionan
 480p, 720p y 1080p, respectivamente.
 
-Para renderizar solo los eventos actuales desde el IDE también puedes ejecutar
+Para renderizar solo los eventos actuales desde el IDE también puede ejecutar
 `animacion.py` con el intérprete de `venv`; ese modo usa calidad 720p y **no**
 recompila C++ ni regenera los eventos.
 

@@ -376,10 +376,6 @@ recompila C++ ni regenera los eventos.
 | `requirements.txt` | Dependencias directas de Python |
 | `build/` | Ejecutable, videos y cachés generados por la pipeline |
 
-Para cambiar la secuencia, edita `keys` y las llamadas `insert`, `search` y
-`remove` en `main()` y vuelve a ejecutar la pipeline. Para cambiar la apariencia
-o los tiempos, edita `animacion.py`.
-
 El registro utiliza `INIT capacidad` para iniciar cada tabla; `INSERT`, `SEARCH`
 y `REMOVE` incluyen clave e índice, o `NOT FOUND` en operaciones fallidas.
 `REHASH antigua nueva` va seguido de un `MOVE clave índice` por nodo y de

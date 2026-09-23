@@ -2,7 +2,9 @@
 
 from dataclasses import dataclass
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
+import av
 from manim import *
 
 
@@ -420,7 +422,73 @@ class HashAnimation(Scene):
                 break
 
 
+def exportar_mpeg(ruta_mp4, ruta_mpeg=None):
+    """Convierte el video a MPEG-2 a 30 FPS usando las bibliotecas de PyAV."""
+    origen = Path(ruta_mp4).resolve()
+    destino = Path(ruta_mpeg).resolve() if ruta_mpeg else origen.with_suffix(".mpeg")
+    if origen == destino:
+        raise ValueError("El archivo MPEG debe tener una ruta distinta del MP4.")
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    print(f"Exportando MPEG-2: {destino}", flush=True)
+
+    # El video anterior se reemplaza solo cuando la conversión termina.
+    with TemporaryDirectory(prefix="mpeg_", dir=destino.parent) as temporal:
+        provisional = Path(temporal) / destino.name
+        with av.open(str(origen)) as entrada, av.open(str(provisional), "w", format="mpeg") as salida:
+            pista = entrada.streams.video[0]
+            video = salida.add_stream("mpeg2video", rate=30)
+            video.width = pista.width
+            video.height = pista.height
+            video.pix_fmt = "yuv420p"
+            video.bit_rate = 8_000_000
+            video.codec_context.max_b_frames = 0
+
+            # El filtro conserva la duración al convertir también videos de 15 o 60 FPS.
+            filtro = av.filter.Graph()
+            fuente = filtro.add_buffer(template=pista)
+            frecuencia = filtro.add("fps", "fps=30")
+            receptor = filtro.add("buffersink")
+            fuente.link_to(frecuencia)
+            frecuencia.link_to(receptor)
+            filtro.configure()
+
+            def codificar_disponibles():
+                while True:
+                    try:
+                        fotograma = filtro.pull()
+                    except (av.error.BlockingIOError, av.error.EOFError):
+                        break
+                    for paquete in video.encode(fotograma):
+                        salida.mux(paquete)
+
+            for fotograma in entrada.decode(pista):
+                filtro.push(fotograma)
+                codificar_disponibles()
+            filtro.push(None)
+            codificar_disponibles()
+            for paquete in video.encode():
+                salida.mux(paquete)
+        provisional.replace(destino)
+
+    print(f"Video MPEG-2: {destino}", flush=True)
+    return destino
+
+
+def main():
+    with tempconfig({
+        "quality": "high_quality",
+        "frame_rate": 30,
+        "renderer": "cairo",
+        "format": "mp4",
+        "input_file": str(Path(__file__).resolve()),
+        "media_dir": str(RUTA_EVENTOS.parent / "media"),
+    }):
+        escena = HashAnimation()
+        escena.render()
+        video = Path(escena.renderer.file_writer.movie_file_path)
+        print(f"Video MP4: {video}", flush=True)
+        exportar_mpeg(video)
+
+
 if __name__ == "__main__":
-    # También permite ejecutar el archivo directamente desde el IDE.
-    with tempconfig({"quality": "medium_quality", "media_dir": str(RUTA_EVENTOS.parent / "media")}):
-        HashAnimation().render()
+    main()

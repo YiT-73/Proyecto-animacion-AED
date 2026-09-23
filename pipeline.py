@@ -62,13 +62,6 @@ def ejecutar_pipeline(opciones, raiz=RAIZ):
         raise RuntimeError(f"No se encontró {opciones.compilador}. Instala g++ y agrégalo al PATH, "
                            "o usa --compilador con la ruta al ejecutable.")
     compilador = str(Path(compilador).absolute())
-    ffmpeg = shutil.which("ffmpeg") if opciones.mpeg else None
-    if opciones.mpeg and ffmpeg is None:
-        raise RuntimeError("La opción --mpeg necesita ffmpeg en el PATH. Consulta README.md.")
-
-    if ffmpeg is not None:
-        ffmpeg = str(Path(ffmpeg).absolute())
-
     python = preparar_python(raiz, opciones.sin_instalar)
     build = raiz / "build"
     build.mkdir(exist_ok=True)
@@ -96,10 +89,9 @@ def ejecutar_pipeline(opciones, raiz=RAIZ):
 
     if opciones.mpeg:
         mpeg = build / "HashAnimation.mpeg"
-        ejecutar([ffmpeg, "-y", "-i", video, "-an", "-c:v", "mpeg2video", "-q:v", "2",
-                  "-pix_fmt", "yuv420p", "-r", "30", "-f", "mpeg", mpeg],
+        conversion = "import sys; from animacion import exportar_mpeg; exportar_mpeg(sys.argv[1], sys.argv[2])"
+        ejecutar([python, "-c", conversion, video, mpeg],
                  raiz=raiz, entorno=entorno)
-        print(f"Video MPEG-2: {mpeg}", flush=True)
     print(f"Video MP4: {video}", flush=True)
     return video
 
@@ -112,7 +104,7 @@ def crear_parser():
                         help="nombre o ruta del compilador GCC/Clang (predeterminado: CXX o g++)")
     parser.add_argument("--sin-instalar", action="store_true",
                         help="reutilizar las dependencias instaladas sin descargar paquetes")
-    parser.add_argument("--mpeg", action="store_true", help="exportar también MPEG-2 con FFmpeg")
+    parser.add_argument("--mpeg", action="store_true", help="exportar también MPEG-2 mediante animacion.py")
     return parser
 
 

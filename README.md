@@ -24,7 +24,8 @@ Si acaba de descargar el proyecto, siga este orden:
 La instalación del sistema se realiza una sola vez. **La pipeline prepara el
 entorno de Python e instala Manim, pero no instala Python ni el compilador C++.**
 En Windows puedes elegir WinLibs o MSYS2; basta con una de esas alternativas.
-FFmpeg solo es necesario si vas a utilizar la opción `--mpeg`.
+La exportación MPEG-2 usa PyAV, instalado con las dependencias de Python;
+no necesita el comando `ffmpeg` en la consola.
 
 ## Estructura de datos y demostración
 
@@ -71,7 +72,7 @@ interactiva para introducir operaciones durante la reproducción.
 | Compilador C++ | GCC (`g++`) o Clang (`clang++`) con soporte C++17; en Windows se utiliza MinGW-w64 |
 | Cairo, Pango y pkg-config | Dependencias de compilación de los paquetes gráficos en Linux |
 | Git | Para clonar el repositorio; también puedes descargarlo como ZIP |
-| FFmpeg | Opcional, requerido por `--mpeg` para crear un archivo MPEG-2 |
+| PyAV | `18.1.0`, utilizado para exportar MPEG-2 desde Python |
 
 `requirements.txt` contiene las dependencias directas de Python; `pip` resuelve
 las transitivas. No es un archivo de bloqueo de todas sus versiones y no instala
@@ -309,27 +310,38 @@ Las opciones se pueden combinar.
 
 ### Exportar un archivo `.mpeg`
 
-La salida habitual es MP4. Para disponer también de un archivo con extensión
-`.mpeg` y códec MPEG-2, instala FFmpeg y compruebe `ffmpeg -version`.
+Al ejecutar `animacion.py` directamente se generan **MP4 y MPEG-2** a partir
+del archivo `eventos.txt` existente. Este modo no necesita compilar C++ ni tener
+`g++` o `ffmpeg` disponibles en la consola.
 
-| Sistema | Instalación de FFmpeg |
-| --- | --- |
-| Ubuntu / Debian / Mint | `sudo apt install ffmpeg` |
-| Fedora | `sudo dnf install ffmpeg-free` |
-| Arch y derivadas | `sudo pacman -S --needed ffmpeg` |
-| Windows, PowerShell | `winget install --id Gyan.FFmpeg -e` y abrir otra terminal |
+**Windows, PowerShell:**
 
-Para otras distribuciones, utilice su paquete de FFmpeg. También puedes consultar
-las [descargas de FFmpeg](https://ffmpeg.org/download.html); el identificador de
-Windows figura en el [catálogo de WinGet](https://github.com/microsoft/winget-pkgs/tree/master/manifests/g/Gyan/FFmpeg).
+```powershell
+.\venv\Scripts\python.exe animacion.py
+```
+
+**Linux:**
+
+```bash
+venv/bin/python animacion.py
+```
+
+Ambos archivos se generan en **1080p (1920 × 1080) a 30 FPS** y quedan en
+`media/videos/animacion/1080p30/`, con los nombres
+`HashAnimation.mp4` y `HashAnimation.mpeg`. También puede ejecutarse el archivo
+desde el IDE seleccionando el intérprete de `venv`.
+
+Si se utiliza la pipeline completa, que sí recompila C++, la opción `--mpeg`
+reutiliza la función de exportación de `animacion.py`:
 
 ```bash
 python3 pipeline.py --mpeg
 ```
 
-Se generan el MP4 habitual y `build/HashAnimation.mpeg`. El MPEG-2 conserva la
-resolución seleccionada y se exporta a 30 FPS; el MP4 conserva los FPS de la calidad
-elegida. La opción no cambia la duración ni añade créditos.
+En ese caso se generan el MP4 habitual y `build/HashAnimation.mpeg`. El MPEG-2
+conserva la resolución seleccionada y se exporta a 30 FPS; el MP4 conserva los FPS
+de la calidad elegida. La conversión mantiene la duración, con el redondeo propio
+del cambio de frecuencia de fotogramas.
 
 ## Ejecución manual por etapas
 
@@ -362,8 +374,9 @@ sus resultados dentro de `build/`. En ambos casos `-ql`, `-qm` y `-qh` seleccion
 480p, 720p y 1080p, respectivamente.
 
 Para renderizar solo los eventos actuales desde el IDE también puede ejecutar
-`animacion.py` con el intérprete de `venv`; ese modo usa calidad 720p y **no**
-recompila C++ ni regenera los eventos.
+`animacion.py` con el intérprete de `venv`; ese modo genera MP4 y MPEG-2 en 1080p a 30 FPS
+y **no** recompila C++ ni regenera los eventos. Ejecutar Manim mediante `-m manim`
+solo genera el MP4; la exportación automática se realiza al ejecutar `animacion.py`.
 
 ## Archivos y personalización
 
@@ -371,7 +384,7 @@ recompila C++ ni regenera los eventos.
 | --- | --- |
 | `tabla_hash.cpp` | Tabla hash, políticas hash y demostración en `main()` |
 | `eventos.txt` | Registro generado por la demostración de C++ |
-| `animacion.py` | Lectura, validación y animación del registro |
+| `animacion.py` | Lectura, validación, animación del registro y exportación MPEG-2 |
 | `pipeline.py` | Preparación del entorno, compilación y renderización |
 | `requirements.txt` | Dependencias directas de Python |
 | `build/` | Ejecutable, videos y cachés generados por la pipeline |
@@ -393,7 +406,7 @@ claves enteras y tablas demostradas de forma secuencial.
 | `No module named manim` | Ejecuta la pipeline sin `--sin-instalar` o utiliza el Python de `venv` |
 | `venv` pertenece a otro sistema o a un Python eliminado | Renombra la carpeta y vuelve a ejecutar la pipeline para crearla de nuevo |
 | Registro antiguo, mezclado o rehash incompleto | Regenera los eventos con la pipeline; el ejecutable anterior puede producir un formato antiguo |
-| No se encuentra `ffmpeg` al usar `--mpeg` | Instala FFmpeg, comprueba el `PATH` y abre otra terminal si acabas de instalarlo |
+| No se encuentra `av` al ejecutar `animacion.py` | Seleccione el Python de `venv` e instale `requirements.txt` en ese entorno |
 
 La pipeline se verifica localmente en Linux. La guía de Windows sigue las
 instalaciones oficiales indicadas, pero no se ha ejecutado en un equipo Windows

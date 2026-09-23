@@ -4,8 +4,9 @@ Proyecto 1 de **CS2023 — Algoritmos y Estructuras de Datos**. El programa impl
 una tabla hash en C++ y utiliza Manim Community para mostrar sus operaciones paso
 a paso: inserciones, colisiones, rehash, búsqueda y eliminación.
 
-**Integrantes:** Yitzhak Abraham Namihas MIllan y Carla Viviana Molina Álvarez.
-Las contribuciones individuales están pendientes de completar para el informe.
+**Integrantes:** 
+- Yitzhak Abraham Namihas Millan
+- Carla Viviana Molina Álvarez
 
 Repositorio: [Proyecto-animacion-AED](https://github.com/YiT-73/Proyecto-animacion-AED).
 
@@ -51,7 +52,12 @@ El `main()` actual demuestra **división**, usando `std::hash(clave) % capacidad
 Inserta `2, 3, 6, 8, 10, 11, 15, 19, 20, 22, 25, 30`, busca `19` y lo elimina.
 La tabla final tiene 10 buckets y 11 elementos.
 
-La animación coloca los buckets en vertical y las cadenas hacia la derecha,
+Antes de la demo, la animación explica la función hash y las colisiones con
+encadenamiento. Incluye una gráfica ilustrativa de O(1) esperado frente a O(n)
+en el peor caso, la expresión O(1 + α) con α = n / m y el costo del rehash.
+La escena completa dura al menos 60 segundos, incluso con un registro más corto.
+
+La demostración coloca los buckets en vertical y las cadenas hacia la derecha,
 muestra la redistribución del rehash, resalta el recorrido de las búsquedas
 exitosas y retira los nodos eliminados. Es un video; no incluye una interfaz
 interactiva para introducir operaciones durante la reproducción.
@@ -413,9 +419,9 @@ Para la entrega completa también se solicita:
 - Informe breve en PDF con descripción del trabajo, contribuciones individuales
   y enlaces funcionales al repositorio y al video final.
 
-**Estado pendiente de la entrega:** la escena actual dura aproximadamente 41–42
-segundos, muestra el título pero todavía no los autores, y no ofrece interacción
-durante la reproducción. Falta ajustar la demo, completar las contribuciones,
+**Estado pendiente de la entrega:** la escena incluye portada con título, curso e
+integrantes, explicación, gráfica y demo, con una duración mínima de un minuto.
+No ofrece interacción durante la reproducción. Falta completar las contribuciones,
 preparar el informe y añadir el enlace público al video final. La pipeline permite
 renderizar en alta resolución y exportar `.mpeg`, pero no completa esos pendientes
 académicos automáticamente.

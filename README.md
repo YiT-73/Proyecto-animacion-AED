@@ -14,12 +14,12 @@ Repositorio: [Proyecto-animacion-AED](https://github.com/YiT-73/Proyecto-animaci
 
 Si acaba de descargar el proyecto, siga este orden:
 
-1. Instala **Python 3.11 o posterior** y un **compilador C++17** siguiendo la guía
+1. Instale **Python 3.11 o posterior** y un **compilador C++17** siguiendo la guía
    de [Linux](#instalación-en-linux) o [Windows](#instalación-en-windows).
-2. Descarga el repositorio y entra a la carpeta que contiene `pipeline.py`.
-3. Comprueba que Python y el compilador respondan a los comandos `--version`
-   indicados en la guía de tu sistema.
-4. Ejecuta la [pipeline](#inicio-rápido-toda-la-pipeline-con-un-comando).
+2. Descargue el repositorio y entre a la carpeta que contiene `pipeline.py`.
+3. Compruebe que Python y el compilador respondan a los comandos `--version`
+   indicados en la guía de su sistema.
+4. Ejecute la [pipeline](#inicio-rápido-toda-la-pipeline-con-un-comando).
 
 La instalación del sistema se realiza una sola vez. **La pipeline prepara el
 entorno de Python e instala Manim, pero no instala Python ni el compilador C++.**
